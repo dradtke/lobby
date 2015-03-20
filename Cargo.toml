@@ -1,0 +1,10 @@
+[package]
+name = "lobby"
+version = "0.0.1"
+authors = ["Damien Radtke <dradtke@channeliq.com>"]
+
+description = "TCP server implementation suitable for chat rooms and games."
+repository = "https://github.com/dradtke/lobby"
+license = "MIT"
+
+keywords = ["tcp", "server", "lobby", "game", "networking"]
