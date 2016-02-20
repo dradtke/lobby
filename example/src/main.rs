@@ -1,10 +1,8 @@
-#![feature(core, io, net)]
-
 extern crate lobby;
 
 use lobby::{Lobby, ScanResult};
 use std::env::args;
-use std::io::{self, BufReader, BufReadExt, Write};
+use std::io::{self, BufReader, BufRead, Write};
 use std::net::TcpStream;
 use std::thread;
 
@@ -81,7 +79,7 @@ fn client_main() {
 fn main() {
     match args().skip(1).next() {
         None => client_main(),
-        Some(ref arg) if arg.as_slice() == "--serve" => server_main(),
+        Some(ref arg) if arg == "--serve" => server_main(),
         Some(arg) => panic!("unexpected argument: {}", arg),
     }
 }

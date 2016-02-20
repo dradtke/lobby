@@ -32,7 +32,6 @@
 //! thing a client should do after establishing the connection is send a UTF-8 encoded
 //! name followed by a 0 byte to indicate its termination. After that, all further
 //! data sent will be queued up to be scanned by the server.
-#![feature(collections, io, net)]
 #![allow(dead_code)]
 
 extern crate vec_map;
