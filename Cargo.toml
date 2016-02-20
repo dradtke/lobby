@@ -9,3 +9,6 @@ documentation = "http://www.rustdox.com/dradtke/lobby/lobby/"
 license = "MIT"
 
 keywords = ["tcp", "server", "lobby", "game", "networking"]
+
+[dependencies]
+vec_map = "0.6.0"
