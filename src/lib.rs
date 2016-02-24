@@ -32,15 +32,18 @@
 //! thing a client should do after establishing the connection is send a UTF-8 encoded
 //! name followed by a 0 byte to indicate its termination. After that, all further
 //! data sent will be queued up to be scanned by the server.
-#![feature(collections, io, net)]
 #![allow(dead_code)]
 
-use std::collections::{VecDeque, VecMap};
+extern crate vec_map;
+
+use std::collections::VecDeque;
 use std::io::{self, BufRead, Write, BufReader};
 use std::net::{TcpListener, TcpStream, ToSocketAddrs};
 use std::thread::{self, JoinHandle};
 use std::sync::{Arc, Mutex};
 use std::sync::mpsc::{channel, Receiver, TryRecvError};
+
+use vec_map::VecMap;
 
 type ClientConn = (Receiver<io::Result<Vec<u8>>>, TcpStream);
 
@@ -50,7 +53,7 @@ pub struct Lobby {
     connections: Arc<Mutex<VecMap<ClientConn>>>,
     names: Arc<Mutex<VecMap<String>>>,
     new_r: Receiver<usize>,
-    thread: JoinHandle,
+    thread: JoinHandle<()>,
 }
 
 impl Lobby {
@@ -211,7 +214,7 @@ impl Lobby {
 
         for (id, result) in results.into_iter() {
             if let ScanResult::Disconnected = result {
-                self.connections.lock().unwrap().remove(&id);
+                self.connections.lock().unwrap().remove(id);
             }
             callback(id, result);
         }
@@ -219,7 +222,7 @@ impl Lobby {
 
     /// Get the registered name for a given client.
     pub fn name(&self, client: usize) -> Option<String> {
-        self.names.lock().unwrap().get(&client).map(|s| s.clone())
+        self.names.lock().unwrap().get(client).map(|s| s.clone())
     }
 }
 
